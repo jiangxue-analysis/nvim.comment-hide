@@ -81,6 +81,7 @@ local comment_patterns = {
 	},
 	["scss"] = {
 		{ single = "//" },
+		{ multi_start = "/*", multi_end = "*/" },
 	},
 	["vue"] = {
 		{ multi_start = "<!--", multi_end = "-->" },
