@@ -6,10 +6,43 @@
 
 The plugin allows you to hide and show comments, and saves them to a specified folder.
 
+#### Why install?
+
+You are lazy.nvim:
+
+```lua
+return {
+  "jiangxue-analysis/nvim.comment-hide",
+  name = "comment-hide",
+  lazy = false,
+  config = function()
+    require("comment-hide").setup()
+
+    vim.api.nvim_create_user_command("CommentHideSaveWithDelay", function()
+      vim.cmd("CommentHideSave")
+      vim.defer_fn(function()
+        local clients = vim.lsp.get_clients({ bufnr = 0 })
+        for _, client in ipairs(clients) do
+          if client.supports_method("textDocument/documentHighlight") then
+            vim.lsp.buf.clear_references()
+            vim.lsp.buf.document_highlight()
+          end
+        end
+      end, 100)
+    end, {})
+
+    vim.keymap.set("n", "<leader>vs", "<cmd>CommentHideSaveWithDelay<CR>", { desc = "Comment: Save (strip comments)" })
+    vim.keymap.set("n", "<leader>vr", "<cmd>CommentHideRestore<CR>", { desc = "Comment: Restore from backup" })
+  end,
+}
+```
+
+If you not lazy.nvim, God be with you~
+
 #### Why use?
 
 1. **:CommentHideSave**: Create `.annotations/` storage code comments and **Delete the current file comment** move comments to `.annotations`.
-2. **CommentHideRestore**: Restore comments from `.annotations/` to the current file.
+2. **:CommentHideRestore**: Restore comments from `.annotations/` to the current file.
 
 If you add the `.annotations/` directory to the `.gitignore` file, anyone without this directory will **be unable to restore your comments**.
 
@@ -17,7 +50,7 @@ If you add the `.annotations/` directory to the `.gitignore` file, anyone withou
 
 > <img width="130" src="https://github.com/user-attachments/assets/20cd1f83-4fdc-45f4-bb6b-23506c56414c" />
 >
-> After executing `CommentHideSave`, **please do not make any changes**, as this will disrupt the line numbers and prevent `Restore Comments` from restoring the comments. 👊🐱🔥
+> After executing `:CommentHideSave`, **please do not make any changes**, as this will disrupt the line numbers and prevent `:CommentHideRestore` from restoring the comments. 👊🐱🔥
 
 ```js
 0 /* >>>                                                               
@@ -45,33 +78,10 @@ The `/* */` block remains because comment-hide allows preserving comments using 
 These comments are stored in the `.annotations/` folder at the root directory. You can locate the JSON file by following the current file name.
 
 ```json
-{
-  "originalContent": "/* >>>\n  This will not be hidden and will be visible to everyone\n*/\n\nconst x = 42; // This is a comment\n/* This is a multi-line\n   comment */\n// Another comment",
-  "comments": [
-    {
-      "text": "// This is a comment",
-      "line": 4,
-      "start": 83,
-      "end": 103
-    },
-    {
-      "text": "/* This is a multi-line\n   comment */",
-      "line": 5,
-      "start": 104,
-      "end": 141
-    },
-    {
-      "text": "// Another comment",
-      "line": 7,
-      "start": 142,
-      "end": 160
-    }
-  ],
-  "filePath": "test/hhha.js"
-}
+{"comments":[{"text":"\/\/ This is a comment"},{"text":"\/\/ Another comment"},{"multi":true,"text":"\/* This is a multi-line\n\/* This is a multi-line\n   comment *\/"}],"originalContent":"\/* >>>\n  This will not be hidden and will be visible to everyone\n*\/\n\nconst x = 42; \/\/ This is a comment\n\/* This is a multi-line\n   comment *\/\n\/\/ Another comment","filePath":"Code\/project\/iusx\/test\/hhha.js"}
 ```
 
-To restore comments, run `Restore Comments`, and the plugin will reinsert comments based on line numbers and positions:
+To restore comments, run `:CommentHideRestore`, and the plugin will reinsert comments based on line numbers and positions:
 
 ```js
 0 /* >>>                                                               
@@ -83,7 +93,6 @@ To restore comments, run `Restore Comments`, and the plugin will reinsert commen
 6    comment */                                                        
 7 // Another comment                                                   
 ```
-
 
 #### Next?
 
@@ -106,45 +115,8 @@ java - rlang - cpp - go - python - ruby - rust - javascript - html - scss - css 
 maybe more?
 ```
 
-#### Support comments style
+#### Support test
 
 ```js
-// Hello
-
-# Hello
-
-/*
-  Hello
-*/
-
-<!-- Hello -->
-
----
-
-[Why no support ''' ?]
-I am lazy
-
----
-
-[example:]
-
-{
-  // image
-}
-{
-  /* {isValidImageIcon
-      ? <img src={imageUrl} className="w-full h-full rounded-full" alt="answer icon" />
-      : (icon && icon !== '') ? <em-emoji id={icon} /> : <em-emoji id='🤖' />
-    } */
-}
-
-[run `save comments`:]
-
-{
-
-}
-{
-
-}
 
 ```
