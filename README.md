@@ -63,7 +63,7 @@ If you add the `.annotations/` directory to the `.gitignore` file, anyone withou
 7 // Another comment                                                   
 ```
 
-run `Save Comments`:
+run `:CommentHideRestore`:
 
 ```js
 1 /* >>>                                                           
@@ -100,7 +100,7 @@ To restore comments, run `:CommentHideRestore`, and the plugin will reinsert com
 
 [-]: Hide all file comments to the `.annotations/` directory
 
-[√]: Fix space placeholders after `Save Comments`.
+[√]: Fix space placeholders after `:CommentHideSave`.
 
 [-]: Fix the absolute positioning issue.
 

@@ -204,62 +204,100 @@ function M.extract_comments(content, filetype)
 
 	local patterns = comment_patterns[filetype] or {}
 	for _, pattern in ipairs(patterns) do
-
 		if pattern.multi_start and pattern.multi_end then
-			local lines = vim.split(uncommented, "\n")
-			local new_lines = {}
-			local inside_multi = false
-			local comment_buf = {}
-			local start_pat = pattern.multi_start
-			local end_pat = pattern.multi_end
-			local current_line_idx = 1
+			if filetype == "python" and (pattern.multi_start == '"""' or pattern.multi_start == "'''") then
+				local content_lines = vim.split(uncommented, "\n")
+				local new_lines = {}
+				local in_comment = false
+				local comment_start_line = 1
+				local comment_content = {}
 
-			while current_line_idx <= #lines do
-				local line = lines[current_line_idx]
-				local i = 1
-				local output_line = ""
-
-				while i <= #line do
-					if not inside_multi then
-						local s, e = line:find(vim.pesc(start_pat), i)
-						if s then
-
-							if is_in_string_or_special(line, s, filetype, {}) then
-								output_line = output_line .. line:sub(i, e)
-								i = e + 1
-							else
-								inside_multi = true
-								comment_buf = { line:sub(s) }
-								output_line = output_line .. line:sub(i, s - 1)
-								i = e + 1
-							end
+				for i, line in ipairs(content_lines) do
+					if not in_comment then
+						local trimmed = line:match("^%s*(.-)%s*$")
+						if trimmed == pattern.multi_start then
+							in_comment = true
+							comment_start_line = i
+							table.insert(comment_content, line)
 						else
-							output_line = output_line .. line:sub(i)
-							break
+							table.insert(new_lines, line)
 						end
 					else
-						table.insert(comment_buf, line)
-						local s, e = line:find(vim.pesc(end_pat), i)
-						if s then
-							inside_multi = false
-							local comment = table.concat(comment_buf, "\n")
-							table.insert(comments, { text = comment, multi = true })
-							i = e + 1
-							comment_buf = {}
-						else
-							break
+						table.insert(comment_content, line)
+						local trimmed = line:match("^%s*(.-)%s*$")
+						if trimmed == pattern.multi_end then
+							in_comment = false
+							table.insert(comments, {
+								text = table.concat(comment_content, "\n"),
+								multi = true,
+							})
+							comment_content = {}
 						end
 					end
 				end
 
-				if not inside_multi then
-					table.insert(new_lines, output_line)
+				if in_comment then
+					for _, l in ipairs(comment_content) do
+						table.insert(new_lines, l)
+					end
 				end
 
-				current_line_idx = current_line_idx + 1
-			end
+				uncommented = table.concat(new_lines, "\n")
+			else
+				local lines = vim.split(uncommented, "\n")
+				local new_lines = {}
+				local inside_multi = false
+				local comment_buf = {}
+				local start_pat = pattern.multi_start
+				local end_pat = pattern.multi_end
+				local current_line_idx = 1
 
-			uncommented = table.concat(new_lines, "\n")
+				while current_line_idx <= #lines do
+					local line = lines[current_line_idx]
+					local i = 1
+					local output_line = ""
+
+					while i <= #line do
+						if not inside_multi then
+							local s, e = line:find(vim.pesc(start_pat), i)
+							if s then
+								if is_in_string_or_special(line, s, filetype, {}) then
+									output_line = output_line .. line:sub(i, e)
+									i = e + 1
+								else
+									inside_multi = true
+									comment_buf = { line:sub(s) }
+									output_line = output_line .. line:sub(i, s - 1)
+									i = e + 1
+								end
+							else
+								output_line = output_line .. line:sub(i)
+								break
+							end
+						else
+							table.insert(comment_buf, line)
+							local s, e = line:find(vim.pesc(end_pat), i)
+							if s then
+								inside_multi = false
+								local comment = table.concat(comment_buf, "\n")
+								table.insert(comments, { text = comment, multi = true })
+								i = e + 1
+								comment_buf = {}
+							else
+								break
+							end
+						end
+					end
+
+					if not inside_multi then
+						table.insert(new_lines, output_line)
+					end
+
+					current_line_idx = current_line_idx + 1
+				end
+
+				uncommented = table.concat(new_lines, "\n")
+			end
 		end
 
 		if pattern.single then
@@ -271,9 +309,7 @@ function M.extract_comments(content, filetype)
 				local comment_start = nil
 
 				for i = 1, #line do
-
 					if line:sub(i, i + #pattern.single - 1) == pattern.single then
-
 						if not is_in_string_or_special(line, i, filetype, heredocs) then
 							comment_start = i
 							break
@@ -282,7 +318,6 @@ function M.extract_comments(content, filetype)
 				end
 
 				if comment_start then
-
 					table.insert(comments, { text = line:sub(comment_start) })
 					new_line = line:sub(1, comment_start - 1)
 				else
