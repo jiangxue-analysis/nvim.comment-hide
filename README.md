@@ -7,7 +7,7 @@
 The plugin allows you to hide and show comments, and saves them to a specified folder.
 
 <video controls>
-  <source src="video.mov" type="video/quicktime">
+  <source src="video.mp4" type="video/mp4">
 </video>
 
 #### Why install?
