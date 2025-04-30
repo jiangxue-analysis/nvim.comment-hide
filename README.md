@@ -86,16 +86,11 @@ To restore comments, run `:CommentHideRestore`, and the plugin will reinsert com
 
 #### Next?
 
-[-]: Restore all comments
-
-[-]: Hide all file comments to the `.annotations/` directory
-
-[√]: Fix space placeholders after `:CommentHideSave`.
-
-[-]: Fix the absolute positioning issue.
-
-[√]: Customize hiding and showing, for example, comment blocks containing `>>>` will not be hidden
-- only support `/* */` comments style
+- [ ] : Restore all comments
+- [ ] : Hide all file comments to the `.annotations/` directory
+- [x] : Fix space placeholders after `:CommentHideSave`.
+- [x] : Fix the absolute positioning issue.
+- [x] : Customize hiding and showing, for example, comment blocks containing `>>>` will not be hidden
 
 #### Support language
 
