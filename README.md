@@ -8,6 +8,9 @@ The plugin allows you to hide and show comments, and saves them to a specified f
 
 #### Why install?
 
+> [!NOTE]
+> This is test version, if error and bug, click [issues](https://github.com/jiangxue-analysis/nvim.comment-hide/issues).
+
 You are use [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
