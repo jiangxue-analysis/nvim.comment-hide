@@ -8,36 +8,23 @@ The plugin allows you to hide and show comments, and saves them to a specified f
 
 #### Why install?
 
-You are lazy.nvim:
+You are use [lazy.nvim](https://github.com/folke/lazy.nvim):
 
 ```lua
+
 return {
   "jiangxue-analysis/nvim.comment-hide",
   name = "comment-hide",
   lazy = false,
   config = function()
     require("comment-hide").setup()
-
-    vim.api.nvim_create_user_command("CommentHideSaveWithDelay", function()
-      vim.cmd("CommentHideSave")
-      vim.defer_fn(function()
-        local clients = vim.lsp.get_clients({ bufnr = 0 })
-        for _, client in ipairs(clients) do
-          if client.supports_method("textDocument/documentHighlight") then
-            vim.lsp.buf.clear_references()
-            vim.lsp.buf.document_highlight()
-          end
-        end
-      end, 100)
-    end, {})
-
     vim.keymap.set("n", "<leader>vs", "<cmd>CommentHideSaveWithDelay<CR>", { desc = "Comment: Save (strip comments)" })
     vim.keymap.set("n", "<leader>vr", "<cmd>CommentHideRestore<CR>", { desc = "Comment: Restore from backup" })
   end,
 }
 ```
 
-If you not lazy.nvim, God be with you~
+If you not user [lazy.nvim](https://github.com/folke/lazy.nvim)? God be with you~
 
 #### Why use?
 
