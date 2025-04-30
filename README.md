@@ -18,7 +18,7 @@ return {
   lazy = false,
   config = function()
     require("comment-hide").setup()
-    vim.keymap.set("n", "<leader>vs", "<cmd>CommentHideSaveWithDelay<CR>", { desc = "Comment: Save (strip comments)" })
+    vim.keymap.set("n", "<leader>vs", "<cmd>CommentHideSave<CR>", { desc = "Comment: Save (strip comments)" })
     vim.keymap.set("n", "<leader>vr", "<cmd>CommentHideRestore<CR>", { desc = "Comment: Restore from backup" })
   end,
 }
@@ -97,7 +97,7 @@ To restore comments, run `:CommentHideRestore`, and the plugin will reinsert com
 #### Support language
 
 ```js
-java - rlang - cpp - go - python - ruby - rust - javascript - html - scss - css - typescript - python - tsx -jsx - vue
+java - lua - rlang - cpp - go - python - ruby - rust - javascript - html - scss - css - typescript - python - tsx -jsx - vue
 ---
 maybe more?
 ```
