@@ -87,7 +87,6 @@ local comment_patterns = {
 		{ multi_start = "<!--", multi_end = "-->" },
 		{ single = "//" },
 		{ multi_start = "/*", multi_end = "*/" },
-		{ single = "#" },
 	},
 	["svelte"] = {
 		{ multi_start = "<!--", multi_end = "-->" },
@@ -131,6 +130,7 @@ end
 local function is_in_string_or_special(line, pos, filetype, heredocs)
 	local in_string_single = false
 	local in_string_double = false
+	local in_backtick = false 
 	local in_regex = false
 	local in_percent_string = false
 	local percent_char = nil
@@ -138,6 +138,25 @@ local function is_in_string_or_special(line, pos, filetype, heredocs)
 	for i = 1, pos do
 		local char = line:sub(i, i)
 		local prev_char = i > 1 and line:sub(i - 1, i - 1) or ""
+
+		if not in_percent_string then
+			if char == "'" and prev_char ~= "\\" and not in_string_double and not in_backtick then
+				in_string_single = not in_string_single
+			elseif char == '"' and prev_char ~= "\\" and not in_string_single and not in_backtick then
+				in_string_double = not in_string_double
+			elseif char == "`" and prev_char ~= "\\" and not in_string_single and not in_string_double then -- NEW
+				in_backtick = not in_backtick 
+			elseif
+				filetype == "ruby"
+				and char == "/"
+				and not in_string_single
+				and not in_string_double
+				and not in_backtick
+				and prev_char ~= "\\"
+			then
+				in_regex = not in_regex
+			end
+		end
 
 		if not in_percent_string and char == "%" then
 			local next_char = line:sub(i + 1, i + 1)
@@ -157,25 +176,7 @@ local function is_in_string_or_special(line, pos, filetype, heredocs)
 					percent_char = ">"
 				end
 			end
-		end
-
-		if not in_percent_string then
-			if char == "'" and prev_char ~= "\\" then
-				in_string_single = not in_string_single
-			elseif char == '"' and prev_char ~= "\\" then
-				in_string_double = not in_string_double
-			elseif
-				filetype == "ruby"
-				and char == "/"
-				and not in_string_single
-				and not in_string_double
-				and prev_char ~= "\\"
-			then
-				in_regex = not in_regex
-			end
-		end
-
-		if in_percent_string and char == percent_char and prev_char ~= "\\" then
+		elseif in_percent_string and char == percent_char and prev_char ~= "\\" then
 			in_percent_string = false
 		end
 	end
@@ -186,7 +187,7 @@ local function is_in_string_or_special(line, pos, filetype, heredocs)
 		end
 	end
 
-	return in_string_single or in_string_double or in_regex or in_percent_string
+	return in_string_single or in_string_double or in_backtick or in_regex or in_percent_string 
 end
 
 function M.extract_comments(content, filetype)
