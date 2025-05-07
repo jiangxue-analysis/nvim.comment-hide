@@ -1,0 +1,42 @@
+# Changelog
+
+## 1.0.0 (2025-05-07)
+
+
+### Features
+
+* add docs and workflow ([e142077](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/e14207738542bfcd1e75d696e0f4cfbce088abe0))
+* add support scala lang ([dfefd91](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/dfefd9189ffa1560d4dbf6cbcbf9aac9b6907ebf))
+* project init ([360c164](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/360c16460aeb3880933493d9a1dbef121a9ba67f))
+
+
+### Bug Fixes
+
+* `` style code error hide ([464647b](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/464647b5cfbea3f76c5fb94142dd43d67e2e6d8a))
+* python ' and " comment no hide error ([a6c840f](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/a6c840fe6b4e5030dd6f5de99d2eb82cb316a742))
+* ruby and outher lang error ([f6efab9](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/f6efab9842fa70411199a542626af6e8101fbdb7))
+
+
+### Docs
+
+* add scala ([8f4b738](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/8f4b73867f4d2aa47257e3d5e17730a0798d4a0c))
+* add test lang comment info ([2f53894](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/2f538940dbc74adbb624a7cf8d82394c0fd04914))
+* add video ([3341e88](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/3341e88c6204ff332a06aa420eac76bace574c22))
+* del logo ([51c45da](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/51c45dab65a7f88789d90a55dae2d89e34e294a2))
+* del video use gif ([cf5e76e](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/cf5e76e9a654a027ca209d949d997e3b9b213f45))
+* fix error markdown ([f9a7c18](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/f9a7c1888ec70593d3034c2c8f8a15238dc8cbfa))
+* fix key error command ([a095c7a](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/a095c7ac5e2cd072c6e7c352ce345b753ff09d3f))
+* upgrate install style ([94a7cc2](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/94a7cc2fbb46e3b317c671aaec397bde2c3d794b))
+* upgrate README.md ([7a772b0](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/7a772b085e7fc2417d0df016b2011f0579ab15ae))
+* use mp4 ([d9675af](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/d9675afcf412ce7616d7d4f241a984e29080cde9))
+
+
+### Code Refactoring
+
+* very good code layout ([9a2ba38](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/9a2ba38f1677fb9ffd759679cfd9a98c463bc4e7))
+
+
+### CI
+
+* add issue template ([6947b08](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/6947b08480bc7df41023f56f9a9a989f6c40c9c2))
+* fix bug_report template typo ([261fd48](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/261fd488ee6af6606e7ea584c8cc4d7d97b7204a))
