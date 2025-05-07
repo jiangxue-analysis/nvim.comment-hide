@@ -41,6 +41,11 @@ local comment_patterns = {
 		{ single = "//" },
 		{ multi_start = "/*", multi_end = "*/" },
 	},
+	["scala"] = {
+		{ single = "//" },
+		{ multi_start = "/*", multi_end = "*/" },
+		{ multi_start = "/**", multi_end = "*/" },
+	},
 	["lua"] = {
 		{ single = "--" },
 		{ multi_start = "--[[", multi_end = "]]" },
@@ -130,7 +135,7 @@ end
 local function is_in_string_or_special(line, pos, filetype, heredocs)
 	local in_string_single = false
 	local in_string_double = false
-	local in_backtick = false 
+	local in_backtick = false
 	local in_regex = false
 	local in_percent_string = false
 	local percent_char = nil
@@ -145,7 +150,7 @@ local function is_in_string_or_special(line, pos, filetype, heredocs)
 			elseif char == '"' and prev_char ~= "\\" and not in_string_single and not in_backtick then
 				in_string_double = not in_string_double
 			elseif char == "`" and prev_char ~= "\\" and not in_string_single and not in_string_double then -- NEW
-				in_backtick = not in_backtick 
+				in_backtick = not in_backtick
 			elseif
 				filetype == "ruby"
 				and char == "/"
@@ -187,7 +192,7 @@ local function is_in_string_or_special(line, pos, filetype, heredocs)
 		end
 	end
 
-	return in_string_single or in_string_double or in_backtick or in_regex or in_percent_string 
+	return in_string_single or in_string_double or in_backtick or in_regex or in_percent_string
 end
 
 function M.extract_comments(content, filetype)
