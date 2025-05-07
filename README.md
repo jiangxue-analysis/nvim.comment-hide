@@ -93,7 +93,9 @@ To restore comments, run `:CommentHideRestore`, and the plugin will reinsert com
 #### Support language
 
 ```js
-java - lua - rlang - cpp - go - python - ruby - rust - javascript - html - scss - css - typescript - python - tsx -jsx - vue
+// Languages: Java, Lua, R, C++, Go, Python, Ruby, Rust,
+//            JavaScript, HTML, SCSS, CSS, TypeScript,
+//            TSX, JSX, Vue, Scala
 ---
 maybe more?
 ```
