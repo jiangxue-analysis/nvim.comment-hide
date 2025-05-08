@@ -90,12 +90,12 @@ To restore comments, run `:CommentHideRestore`, and the plugin will reinsert com
 - [x] : Fix the absolute positioning issue.
 - [x] : Customize hiding and showing, for example, comment blocks containing `>>>` will not be hidden
 
-#### Support language
+#### Support language / framework
 
 ```js
-// Languages: Java, Lua, R, C++, Go, Python, Ruby, Rust,
-//            JavaScript, HTML, SCSS, CSS, TypeScript,
-//            TSX, JSX, Vue, Scala
+// Support: Java, Lua, R, C++, Go, Python, Ruby, Rust,  
+            JavaScript, HTML, SCSS, CSS, TypeScript,    
+            TSX, JSX, Vue, Scala                        
 ---
 maybe more?
 ```
