@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.1.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.0.0...v1.1.0) (2025-05-10)
+
+
+### Features
+
+* add gitignore config auto .annotations/ to .gitignore [#3](https://github.com/jiangxue-analysis/nvim.comment-hide/issues/3) ([1a15ad8](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/1a15ad8c68b1fb49bddb2b2bfa5aceda0a0b6eef))
+
+
+### Docs
+
+* add gitignore config desc ([54fa7c4](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/54fa7c4f5f1eb5a3eb1727da2a8f2d3c8e0601b7))
+* typo ([1b84503](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/1b845037e9bfd31ff8f61daa2d0d85f127aeb20b))
+
 ## 1.0.0 (2025-05-07)
 
 
