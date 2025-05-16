@@ -133,6 +133,21 @@ local function restore_heredocs(content, heredocs)
 end
 
 local function is_in_string_or_special(line, pos, filetype, heredocs)
+	if filetype == "bash" or filetype == "sh" then
+		if pos == 1 and line:sub(1, 2) == "#!" then
+			return true 
+		end
+		local before = line:sub(1, pos - 1)
+		local after = line:sub(pos)
+
+		if before:match("%${[^}]*$") and after:match("^[#%%]") then
+			return true
+		end
+
+		if before:match("%${$") and after:match("^#[^}]*}") then
+			return true
+		end
+	end
 	local in_string_single = false
 	local in_string_double = false
 	local in_backtick = false
