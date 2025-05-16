@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.1.0...v1.1.1) (2025-05-16)
+
+
+### Bug Fixes
+
+* bash and shell file support and fix [#5](https://github.com/jiangxue-analysis/nvim.comment-hide/issues/5) ([01f7640](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/01f7640ecb933ae68f2d76164aecc4ae2592ea59))
+
 ## [1.1.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.0.0...v1.1.0) (2025-05-10)
 
 
