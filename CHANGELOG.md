@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.2.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.1.1...v1.2.0) (2025-05-21)
+
+
+### Features
+
+* basic support for erlang and elixir [#8](https://github.com/jiangxue-analysis/nvim.comment-hide/issues/8) ([1897835](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/18978355f644765a76fed2710ccdb5e6863b325c))
+
+
+### CI
+
+* add support lang template ([7c317f7](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/7c317f78b2386fe0d74eef5f3a78f12856eb9b47))
+
 ## [1.1.1](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.1.0...v1.1.1) (2025-05-16)
 
 
