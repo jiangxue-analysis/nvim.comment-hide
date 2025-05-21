@@ -98,6 +98,12 @@ local comment_patterns = {
 		{ single = "//" },
 		{ multi_start = "/*", multi_end = "*/" },
 	},
+	["elixir"] = {
+		{ single = "#" },
+	},
+	["erlang"] = {
+		{ single = "%" },
+	},
 }
 
 local function extract_heredocs(content, filetype)
@@ -135,7 +141,7 @@ end
 local function is_in_string_or_special(line, pos, filetype, heredocs)
 	if filetype == "bash" or filetype == "sh" then
 		if pos == 1 and line:sub(1, 2) == "#!" then
-			return true 
+			return true
 		end
 		local before = line:sub(1, pos - 1)
 		local after = line:sub(pos)
@@ -148,6 +154,19 @@ local function is_in_string_or_special(line, pos, filetype, heredocs)
 			return true
 		end
 	end
+
+	if filetype == "elixir" then
+		local hash_pos = line:find("#", 1, true)
+		if hash_pos and line:sub(hash_pos + 1, hash_pos + 1) == "{" then
+			return true
+		end
+
+		local first_nonspace = line:match("^%s*(.)")
+		if first_nonspace == '"' then
+			return true
+		end
+	end
+
 	local in_string_single = false
 	local in_string_double = false
 	local in_backtick = false
