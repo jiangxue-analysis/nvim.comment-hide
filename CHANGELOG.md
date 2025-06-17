@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.2.0...v1.3.0) (2025-06-17)
+
+
+### Features
+
+* add support handlebars template ([1331492](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/13314927ecdfaa843a4abaa83f377bc12b672b35))
+
 ## [1.2.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.1.1...v1.2.0) (2025-05-21)
 
 
