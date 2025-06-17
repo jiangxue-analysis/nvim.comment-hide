@@ -104,6 +104,11 @@ local comment_patterns = {
 	["erlang"] = {
 		{ single = "%" },
 	},
+	["html.handlebars"] = {
+		{ multi_start = "<!--", multi_end = "-->" },
+		{ single = "//" },
+		{ multi_start = "/*", multi_end = "*/" },
+	},
 }
 
 local function extract_heredocs(content, filetype)
