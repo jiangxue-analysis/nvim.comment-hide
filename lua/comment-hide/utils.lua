@@ -1,114 +1,50 @@
 local M = {}
 
+local single_patterns = {
+    ["slash"] = { single = "//" },
+    ["hash"] = { single = "#" },
+    ["dash"] = { single = "--" },
+    ["percent"] = { single = "%" },
+}
+
+local multi_patterns = {
+    ["c"] = { multi_start = "/*", multi_end = "*/" },
+    ["lua"] = { multi_start = "--[[", multi_end = "]]" },
+    ["html"] = { multi_start = "<!--", multi_end = "-->" },
+    ["python3"] = { multi_start = '"""', multi_end = '"""' },
+    ["python1"] = { multi_start = "'''", multi_end = "'''" },
+    ["ruby"] = { multi_start = "=begin", multi_end = "=end" },
+    ["scala"] = { multi_start = "/**", multi_end = "*/" },
+}
+
 local comment_patterns = {
-	["c"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["cpp"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["cs"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["css"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["go"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["java"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["javascript"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["javascriptreact"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["typescript"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["typescriptreact"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["scala"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-		{ multi_start = "/**", multi_end = "*/" },
-	},
-	["lua"] = {
-		{ single = "--" },
-		{ multi_start = "--[[", multi_end = "]]" },
-	},
-	["python"] = {
-		{ single = "#" },
-		{ multi_start = '"""', multi_end = '"""' },
-		{ multi_start = "'''", multi_end = "'''" },
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["ruby"] = {
-		{ single = "#" },
-		{ multi_start = "=begin", multi_end = "=end" },
-	},
-	["r"] = {
-		{ single = "#" },
-	},
-	["rust"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["sh"] = {
-		{ single = "#" },
-	},
-	["html"] = {
-		{ multi_start = "<!--", multi_end = "-->" },
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["markdown"] = {
-		{ multi_start = "<!--", multi_end = "-->" },
-	},
-	["php"] = {
-		{ single = "//" },
-		{ single = "#" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["scss"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["vue"] = {
-		{ multi_start = "<!--", multi_end = "-->" },
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["svelte"] = {
-		{ multi_start = "<!--", multi_end = "-->" },
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["elixir"] = {
-		{ single = "#" },
-	},
-	["erlang"] = {
-		{ single = "%" },
-	},
-	["html.handlebars"] = {
-		{ multi_start = "<!--", multi_end = "-->" },
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
+    c = { single_patterns.slash, multi_patterns.c },
+    cpp = { single_patterns.slash, multi_patterns.c },
+    cs = { single_patterns.slash, multi_patterns.c },
+    css = { single_patterns.slash, multi_patterns.c },
+    go = { single_patterns.slash, multi_patterns.c },
+    java = { single_patterns.slash, multi_patterns.c },
+    javascript = { single_patterns.slash, multi_patterns.c },
+    javascriptreact = { single_patterns.slash, multi_patterns.c },
+    typescript = { single_patterns.slash, multi_patterns.c },
+    typescriptreact = { single_patterns.slash, multi_patterns.c },
+    scala = { single_patterns.slash, multi_patterns.c, multi_patterns.scala },
+    lua = { single_patterns.dash, multi_patterns.lua },
+    python = { single_patterns.hash, multi_patterns.python3, multi_patterns.python1, single_patterns.slash, multi_patterns.c },
+    ruby = { single_patterns.hash, multi_patterns.ruby },
+    r = { single_patterns.hash },
+    rust = { single_patterns.slash, multi_patterns.c },
+    sh = { single_patterns.hash },
+    html = { multi_patterns.html, single_patterns.slash, multi_patterns.c },
+    markdown = { multi_patterns.html },
+    php = { single_patterns.slash, single_patterns.hash, multi_patterns.c },
+    scss = { single_patterns.slash, multi_patterns.c },
+    vue = { multi_patterns.html, single_patterns.slash, multi_patterns.c },
+    svelte = { multi_patterns.html, single_patterns.slash, multi_patterns.c },
+    elixir = { single_patterns.hash },
+    erlang = { single_patterns.percent },
+    ["html.handlebars"] = { multi_patterns.html, single_patterns.slash, multi_patterns.c },
+    nix = { single_patterns.hash },
 }
 
 local function extract_heredocs(content, filetype)
