@@ -1,4 +1,8 @@
 body {
-    /* multi line comment with // and # inside */
+    /* multi line comment with // style test */
+    /* 
+     // This test
+     // Test 
+    */
     color: red; /* multi line comment with  */
 }

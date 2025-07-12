@@ -1,8 +1,404 @@
-<template>
-    <!-- vue template comment with // and /* inside -->
-    <div>// not a comment</div>
+<template functional>
+	<div
+		:class="[
+			props.row !== undefined
+				? 'row'
+				: props.col !== undefined
+					? 'col' + (props.col ? '-' + props.col : '')
+					: null,
+
+			/* link prorps */props.btnStyle == 'link'
+				? null
+				: /* btn group */'btn-group',
+			props.dropdownDirection == 'up'
+				? 'dropup'
+				: props.dropdownDirection == 'right'
+					? 'dropright'
+					: props.dropdownDirection == 'left'
+						? 'dropleft'
+						: slots().dropdown
+							? 'dropdown'
+							: null
+		]"
+	>
+
+		<a
+			:href="data.attrs && data.attrs.href ? data.attrs.href : '#'"
+			role="button"
+
+			v-bind="data.attrs"
+			v-on="listeners"
+
+			:type="props.btnType == 'submit' ? 'submit' : null/*'button'*/"
+			:class="{
+				'btn': /**/props.btnStyle == 'link' ? false : /**/true,
+				['btn-'
+					+ (props.outline !== undefined && props.outline !== false ? 'outline-' : '')
+					+ (props.btnStyle ? props.btnStyle : 'primary')]: true,
+				'btn-sm': props.size == 'sm',
+				'btn-lg': props.size == 'lg',
+				'btn-block': props.block !== undefined && props.block !== false,
+
+				'active': props.state == 'active' || data.attrs && data.attrs.active !== undefined && data.attrs.active !== false,
+				'disabled': props.state == 'disabled' || data.attrs && data.attrs.disabled !== undefined && data.attrs.disabled !== false,
+
+				'dropdown-toggle': slots().dropdown/**/ && props.btnStyle != 'link'/**/,
+				'dropdown-toggle-split': slots().dropdown && !props.fas && !slots().default
+			}"
+
+			:data-toggle="slots().dropdown ? 'dropdown' : props.popoverTitle || props.popoverContent ? 'popover' : null"
+			aria-haspopup="true"
+			aria-expanded="false"
+
+			:title="props.popoverTitle"
+			:data-content="props.popoverContent"
+			:data-placement="props.popoverPlacement"
+
+			:data-bs-toggle="slots().dropdown ? 'dropdown' : props.popoverTitle || props.popoverContent ? 'popover' : null"
+			:data-bs-content="props.popoverContent"
+			:data-bs-placement="props.popoverPlacement"
+		>
+			<i
+				v-if="props.bi"
+				:class="{
+					'bi': true,
+					['bi-' + props.bi]: true
+				}"
+			></i>
+			<span
+				v-else-if="props.fas"
+				:class="{
+					'fas': props.fas,
+					['fa-' + props.fas]: props.fas,
+					'fa-fw': true,
+
+					'mr-1 me-1': props.fas && slots().default,
+				}"
+			></span>
+			<slot>
+				<!--<span v-show="!fas" class="sr-only">Toggle Dropdown</span>-->
+			</slot>
+		</a>
+
+		<div
+			v-if="slots().dropdown"
+			:class="{
+				'dropdown-menu': true,
+				['dropdown-menu-'
+					+ (props.dropdownAlignmentSize ? props.dropdownAlignmentSize + '-' : '')
+					+ (props.dropdownAlignment ? props.dropdownAlignment : 'left')]: true,
+			}"
+		>
+			<slot name="dropdown"></slot>
+		</div>
+	</div>
 </template>
+
 <script>
-// js comment in vue
-/* multi line in vue */
+export default {
+	inheritAttrs: false,
+	props: [
+		'col',						// auto|...
+		'row',						// true|FALSE
+
+		'btnType',					// BUTTON|submit
+		'btnStyle',					// PRIMARY|secondary|success|danger|warning|info|light|dark|link
+		'outline',					// true|FALSE
+		'size',						// sm|lg
+		'block',					// true|FALSE
+		'state',					// active|disabled
+//		active						// FALSE|true
+//		disabled					// FALSE|true
+
+		'bi',						// Bootstrap Icons
+		'fas',						// Font Awesome
+
+		'dropdownDirection',		// up|right|left
+		'dropdownAlignment',		// right|LEFT
+		'dropdownAlignmentSize',	// sm|md|lg|xl
+
+		'popoverTitle',
+		'popoverContent',
+		'popoverPlacement',			// TOP|right|bottom|left
+	]
+}
 </script>
+
+<style lang="scss">
+
+/*-- scss:defaults --*/
+
+// Import fonts
+
+// @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,500,600,700,800,400italic,700italic);
+@import url('https://fonts.googleapis.com/css?family=Alegreya:400,400i,600,700,800,700i|Alegreya+Sans');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code&display=swap');
+
+$font-family-sans-serif: "Alegreya", sans-serif !default;
+$font-family-monospace:  "Fira Code", monospace !default;
+$font-family-code:  "Fira Code", monospace !default;
+$presentation-font-size-root: 45px !default;
+$presentation-title-font-size-root: 4px !default;
+
+// $h1-font-size: 
+
+// colors
+$main-color: #901A1E !default;
+$body-bg: #000000 !default;  // Used to be eigengrau #16161d
+$body-color: #fff !default;
+$link-color: #901A1E !default;
+$selection-bg: #e7ad52 !default;
+$input-panel-bg: rgba(233, 236, 239, 0.2) !default;
+$aside-text-color: #222 !default;
+$gray-color: #BBBBBB !default;
+
+$table-header-bg-color: $main-color;  /* Background color for table headers */
+$table-zebra-bg-light: #999;
+$table-zebra-bg-dark: #666;
+
+// Code
+$code-color: $body-color;
+
+// Headings
+$presentation-heading-font: "Open Sans", Impact, sans-serif;
+$presentation-heading-letter-spacing: -0.05em;
+$presentation-heading-font-weight: 600;
+
+// code blocks
+//$code-block-border-color: rgba(233, 236, 239, 0.5) !default;
+$code-block-border-color: rgba(33, 236, 239, 0.5) !default;
+
+
+
+/*-- scss:rules --*/
+
+
+// Adding a few default colours that can be used to emphasize text
+
+
+.blue {
+  color: #0000ff;
+  font-weight: bold;
+}
+
+.yellow {
+  color: #ffff00;
+  font-weight: bold;
+}
+
+/*
+.orange {
+  color: #ffac1c;
+  font-weight: bold;
+}
+
+.green {
+  color: #5ce65c;
+  font-weight: bold;
+}
+
+.white {
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.gray {
+  color: #777777;
+}
+*/
+
+.red {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+
+/* Font sizes   */
+
+.Large { font-size: 144% }
+.large { font-size: 120% }
+.small { font-size: 90% }
+.footnotesize { font-size: 80% }
+.scriptsize { font-size: 70% }
+.tiny { font-size: 60% }
+
+
+
+.title {
+    font-size: 150%
+}
+
+.subtitle {
+    font-size: 150%;
+}
+
+
+// Fix the font for the R code
+.reveal code {
+    font-family: $font-family-code;
+    font-size: 90% ;
+}
+
+.reveal pre code {
+    font-size: 120% ;
+}
+
+
+.reveal h1 {
+//    letter-spacing: -0.0325em;
+}
+
+.reveal h2 {
+//    letter-spacing: -0.0325em;
+}
+
+
+.reveal .slide aasdside {
+    position: absolute;
+    writing-mode: vertical-rl;
+    right: -100px;
+//    left: auto;
+    bottom: 0px;
+    top: 0%;
+    color: #5555aa ;
+    font-size: 50% ;
+    text-align: left;    
+    transform: translate( 0%, 0% ) scale( 100% ) rotate(180deg);
+}
+
+
+
+.reveal .caption-right-vertical {
+
+//    position: fixed;
+  right: 0px; bottom: 0px;
+
+    
+    position: absolute;
+//    writing-mode: vertical-rl;
+    right: 8px;
+//    bottom: 80px;
+    color: #fff;
+//    height: 200%;
+    font-size: 70%;
+    transform-origin: bottom right;
+    transform: rotate(-90deg) translate(0%, 0%);
+}
+
+
+
+
+.reveal .slide aside {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 100% 0;
+    transform: rotate(90deg) translate(0%, -100%);
+    border-left: 34px solid #369;
+    padding-left: 10px;
+    text-transform: uppercase;
+    background: #369;
+    color: #fff;
+/*    padding: 5px 10px;
+    margin: 0 0 10px 0;
+    line-height: 24px;   */ 
+}
+
+
+
+/* Create a background that resembles a key */
+.button {
+    background-color: #bbbbbb;
+    border: none;
+    box-shadow:1px 0 1px 0 #eee, 0 2px 0 2px #ccc, 0 2px 0 3px #444;
+    border-radius: 5px;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    margin: 4px 2px;
+    min-width: 40px;
+    cursor: pointer;
+}
+
+
+
+
+.inverse {
+    background-color: var(--inverse-bg-color);
+    color: var(--inverse-text-color);
+    text-shadow: 0 0 20px #333;
+}
+
+.inverse h1, .inverse h2, .inverse h3 {
+    color: var(--inverse-text-color);
+    text-shadow: 0 0 20px #333;
+//  line-height: 0.8em;
+}
+
+
+/****************
+ *
+ * Tables
+ *
+ ****************/
+
+table { display: inline-block; }  /* Fix centering of tables  */
+
+table td  { padding: 0px 16px; }
+
+table th { // Table header
+    background-color: $table-header-bg-color;
+    font-weight: bold;
+    padding: 0px 6px; 
+}
+
+tbody tr:nth-child(odd) {   /* Zebra stipes for tables */
+    background-color: $table-zebra-bg-dark;
+}
+
+tbody tr:nth-child(even) {   /* Zebra stipes for tables */
+    background-color: $table-zebra-bg-light;
+    color: #000;
+}
+
+
+
+details > summary {    
+    font-size: 50%;
+    color: $gray-color ! important;
+}
+
+
+// Images
+
+
+.rotate-left {
+    -webkit-transform: rotate(-2deg);
+    -moz-transform: rotate(-2deg);
+    transform: rotate(-2deg); 
+}
+
+.rotate-right {
+    -webkit-transform: rotate(2deg);
+    -moz-transform: rotate(2deg);
+    transform: rotate(2deg);     
+}
+
+.polaroid {
+    border: 10px solid #fff;
+    border-bottom: 85px solid #fff;
+    -webkit-box-shadow: 3px 3px 3px #111;
+    -moz-box-shadow: 3px 3px 3px #111;
+    box-shadow: 3px 3px 3px #111;
+}
+
+.shadow {
+    -moz-border-radius: 10px;
+    -moz-box-shadow: 25px 25px 25px #777;
+    -webkit-box-shadow: 25px 25px 25px #777;
+    box-shadow: 25px 25px 25px #777;
+    border-radius: 10px;  
+}
+</style>

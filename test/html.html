@@ -1,12 +1,270 @@
-<html>
-<!--
-    HTML multi-line comment
-    // fake js comment
--->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Digital Clock</title>
+    <style>
+        /* General body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        /* Container for all content */
+        .container {
+            background-color: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        
+        /* Page header styles */
+        .header h1 {
+            margin-bottom: 5px;
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .header p {
+            margin-top: 0;
+            color: #ccc;
+            font-size: 1.1rem;
+        }
+        
+        /* Main clock display styles */
+        #clock {
+            font-size: 5rem;
+            font-weight: bold;
+            margin: 30px 0;
+            letter-spacing: 3px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        
+        /* Date display styles */
+        #date {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: #feb47b;
+        }
+        
+        /* Timezone cards container */
+        .timezones {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        
+        /* Individual timezone card */
+        .timezone-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 15px;
+            min-width: 150px;
+            flex-grow: 1;
+        }
+        
+        .timezone-card h3 {
+            margin-top: 0;
+            color: #ff7e5f;
+            font-size: 1.4rem;
+        }
+        
+        /* Time format selector styling */
+        .time-format {
+            margin: 20px 0;
+        }
+        
+        .time-format button {
+            background: transparent;
+            color: #feb47b;
+            border: 2px solid #feb47b;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 30px;
+            transition: all 0.3s ease;
+        }
+        
+        .time-format button:hover {
+            background: #feb47b;
+            color: #0f2027;
+        }
+        
+        .time-format button.active {
+            background: #feb47b;
+            color: #0f2027;
+            font-weight: bold;
+        }
+        
+        /* Footer styling */
+        footer {
+            margin-top: 40px;
+            color: #aaa;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            #clock {
+                font-size: 3.5rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            #clock {
+                font-size: 2.5rem;
+            }
+            
+            .timezone-card h3 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
 <body>
-<!-- inline --> <div>hi</div>
-<script>
-    // js comment inside html
-</script>
+    <div class="container">
+        <!-- Page header section -->
+        <div class="header">
+            <h1>Global Digital Clock</h1>
+            <p>Showing current time with multiple timezones</p>
+        </div>
+        
+        <!-- Main time display area -->
+        <div id="clock">00:00:00</div>
+        
+        <!-- Date display area -->
+        <div id="date">Sunday, January 1, 2023</div>
+        
+        <!-- Time format selector buttons -->
+        <div class="time-format">
+            <button id="format24" class="active">24-Hour Format</button>
+            <button id="format12">12-Hour Format</button>
+        </div>
+        
+        <!-- Timezone cards showing different locations -->
+        <div class="timezones">
+            <div class="timezone-card">
+                <h3>Tokyo</h3>
+                <div id="tokyo-time">00:00:00</div>
+            </div>
+            <div class="timezone-card">
+                <h3>London</h3>
+                <div id="london-time">00:00:00</div>
+            </div>
+            <div class="timezone-card">
+                <h3>New York</h3>
+                <div id="newyork-time">00:00:00</div>
+            </div>
+        </div>
+        
+        <!-- Footer section -->
+        <footer>
+            <p>Current local time: Automatically detected from your browser</p>
+        </footer>
+    </div>
+    
+    <script>
+        // Global variable to track time format (12h or 24h)
+        let is24HourFormat = true;
+        
+        // Function to update the clock display
+        function updateClock() {
+            const now = new Date();
+            
+            // Format the local time based on selected format
+            let hours = now.getHours();
+            let minutes = now.getMinutes().toString().padStart(2, '0');
+            let seconds = now.getSeconds().toString().padStart(2, '0');
+            
+            // Adjust format based on user selection
+            let ampm = '';
+            if (!is24HourFormat) {
+                ampm = hours >= 12 ? ' PM' : ' AM';
+                hours = hours % 12 || 12;
+            }
+            
+            // Update main clock display
+            document.getElementById('clock').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes}:${seconds}${ampm}`;
+            
+            // Format and update the date display
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('date').textContent = 
+                now.toLocaleDateString('en-US', dateOptions);
+            
+            // Update other timezones
+            updateTimezone('tokyo-time', 9);
+            updateTimezone('london-time', 1);
+            updateTimezone('newyork-time', -4);
+        }
+        
+        // Function to update time for a specific timezone
+        function updateTimezone(elementId, timezoneOffset) {
+            const now = new Date();
+            
+            // Convert to target timezone
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            const targetTime = new Date(utc + (3600000 * timezoneOffset));
+            
+            let hours = targetTime.getHours();
+            let minutes = targetTime.getMinutes().toString().padStart(2, '0');
+            let seconds = targetTime.getSeconds().toString().padStart(2, '0');
+            
+            // Adjust format based on user selection
+            let ampm = '';
+            if (!is24HourFormat) {
+                ampm = hours >= 12 ? ' PM' : ' AM';
+                hours = hours % 12 || 12;
+            }
+            
+            // Update element display
+            document.getElementById(elementId).textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes}:${seconds}${ampm}`;
+        }
+        
+        // Event listeners for format change buttons
+        document.getElementById('format24').addEventListener('click', function() {
+            is24HourFormat = true;
+            this.classList.add('active');
+            document.getElementById('format12').classList.remove('active');
+        });
+        
+        document.getElementById('format12').addEventListener('click', function() {
+            is24HourFormat = false;
+            this.classList.add('active');
+            document.getElementById('format24').classList.remove('active');
+        });
+        
+        // Initial call to start the clock
+        updateClock();
+        
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+    </script>
 </body>
 </html>
