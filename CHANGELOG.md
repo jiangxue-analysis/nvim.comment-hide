@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.3.0...v1.4.0) (2025-07-12)
+
+
+### Features
+
+* close [#14](https://github.com/jiangxue-analysis/nvim.comment-hide/issues/14) and fix nix file #!/bin/sh del error ([30eee9a](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/30eee9a8c710db327619d9874ab5af787107c837))
+
+
+### Code Refactoring
+
+* add [#13](https://github.com/jiangxue-analysis/nvim.comment-hide/issues/13) support and test e.g ([f8fa4d2](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/f8fa4d250824a3aa11e493e42deaff064a35a783))
+
 ## [1.3.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.2.0...v1.3.0) (2025-06-17)
 
 
