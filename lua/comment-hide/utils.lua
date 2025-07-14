@@ -51,6 +51,7 @@ local comment_patterns = {
 	erlang = { single_patterns.percent },
 	["html.handlebars"] = { multi_patterns.html, single_patterns.slash, multi_patterns.c },
 	nix = { single_patterns.hash },
+	yaml = { single_patterns.hash },
 }
 
 local function extract_heredocs(content, filetype)

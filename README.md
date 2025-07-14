@@ -98,7 +98,7 @@ To restore comments, run `:CommentHideRestore`, and the plugin will reinsert com
 // Support: Java, Lua, R, C++, Go, Python, Ruby, Rust,  
             JavaScript, HTML, SCSS, CSS, TypeScript,    
             TSX, JSX, Vue, Scala, Bash                        
-// Outher:  Handlebars
+// Outher:  Handlebars, Yaml
 ---
 maybe more?
 ```
