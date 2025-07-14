@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.4.0...v1.5.0) (2025-07-14)
+
+
+### Features
+
+* add yaml support close [#16](https://github.com/jiangxue-analysis/nvim.comment-hide/issues/16) ([8b9aa23](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/8b9aa23d8cd0d5af1ea5ace399636ef5b8382470))
+
 ## [1.4.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.3.0...v1.4.0) (2025-07-12)
 
 
