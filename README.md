@@ -94,13 +94,49 @@ To restore comments, run `:CommentHideRestore`, and the plugin will reinsert com
 
 #### Support language / framework
 
-```js
-// Support: Java, Lua, R, C++, Go, Python, Ruby, Rust,  
-            JavaScript, HTML, SCSS, CSS, TypeScript,    
-            TSX, JSX, Vue, Scala, Bash                        
-// Outher:  Handlebars, Yaml
----
-maybe more?
+You can click look [utils.lua](https://github.com/jiangxue-analysis/nvim.comment-hide/blob/main/lua/comment-hide/utils.lua#L20) file, Lnow supported languages:
+
+```
+local comment_patterns = {
+	c = { single_patterns.slash, multi_patterns.c },
+	cpp = { single_patterns.slash, multi_patterns.c },
+	cs = { single_patterns.slash, multi_patterns.c },
+	css = { single_patterns.slash, multi_patterns.c },
+	go = { single_patterns.slash, multi_patterns.c },
+	java = { single_patterns.slash, multi_patterns.c },
+	javascript = { single_patterns.slash, multi_patterns.c },
+	javascriptreact = { single_patterns.slash, multi_patterns.c },
+	typescript = { single_patterns.slash, multi_patterns.c },
+	typescriptreact = { single_patterns.slash, multi_patterns.c },
+	scala = { single_patterns.slash, multi_patterns.c, multi_patterns.scala },
+	lua = { single_patterns.dash, multi_patterns.lua },
+	python = {
+		single_patterns.hash,
+		multi_patterns.python3,
+		multi_patterns.python1,
+		single_patterns.slash,
+		multi_patterns.c,
+	},
+	ruby = { single_patterns.hash, multi_patterns.ruby },
+	r = { single_patterns.hash },
+	rust = { single_patterns.slash, multi_patterns.c },
+	sh = { single_patterns.hash },
+	html = { multi_patterns.html, single_patterns.slash, multi_patterns.c },
+	markdown = { multi_patterns.html },
+	php = { single_patterns.slash, single_patterns.hash, multi_patterns.c },
+	scss = { single_patterns.slash, multi_patterns.c },
+	vue = { multi_patterns.html, single_patterns.slash, multi_patterns.c },
+	svelte = { multi_patterns.html, single_patterns.slash, multi_patterns.c },
+	elixir = { single_patterns.hash },
+	erlang = { single_patterns.percent },
+	["html.handlebars"] = { multi_patterns.html, single_patterns.slash, multi_patterns.c },
+	nix = { single_patterns.hash },
+	yaml = { single_patterns.hash },
+  clojure = { single_patterns.semicolon },
+  bitbake = { single_patterns.semicolon },
+  cljc = { single_patterns.semicolon },
+  ……  maybe more?
+}
 ```
 
 For comment support, please refer to [comment_patterns](https://github.com/jiangxue-analysis/nvim.comment-hide/blob/main/lua/comment-hide/utils.lua), as each language has many different comment styles, so not all of them may be supported.

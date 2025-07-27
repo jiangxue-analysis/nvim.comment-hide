@@ -5,6 +5,7 @@ local single_patterns = {
 	["hash"] = { single = "#" },
 	["dash"] = { single = "--" },
 	["percent"] = { single = "%" },
+  semicolon = { single = ";" }
 }
 
 local multi_patterns = {
@@ -52,6 +53,9 @@ local comment_patterns = {
 	["html.handlebars"] = { multi_patterns.html, single_patterns.slash, multi_patterns.c },
 	nix = { single_patterns.hash },
 	yaml = { single_patterns.hash },
+  clojure = { single_patterns.semicolon },
+  bitbake = { single_patterns.semicolon },
+  cljc = { single_patterns.semicolon },
 }
 
 local function extract_heredocs(content, filetype)
