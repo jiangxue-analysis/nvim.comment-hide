@@ -56,6 +56,7 @@ local comment_patterns = {
   clojure = { single_patterns.semicolon },
   bitbake = { single_patterns.semicolon },
   cljc = { single_patterns.semicolon },
+	haskell = { single_patterns.dash },
 }
 
 local function extract_heredocs(content, filetype)
