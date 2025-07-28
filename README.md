@@ -142,28 +142,28 @@ local comment_patterns = {
 For comment support, please refer to [comment_patterns](https://github.com/jiangxue-analysis/nvim.comment-hide/blob/main/lua/comment-hide/utils.lua), as each language has many different comment styles, so not all of them may be supported.
 
 ```
-local comment_patterns = {
-	["c"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["cpp"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["cs"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-	["css"] = {
-		{ single = "//" },
-		{ multi_start = "/*", multi_end = "*/" },
-	},
-  ……
+local single_patterns = {
+	["slash"] = { single = "//" },
+	["hash"] = { single = "#" },
+	["dash"] = { single = "--" },
+	["percent"] = { single = "%" },
+  semicolon = { single = ";" }
+}
+
+local multi_patterns = {
+	["c"] = { multi_start = "/*", multi_end = "*/" },
+	["lua"] = { multi_start = "--[[", multi_end = "]]" },
+	["html"] = { multi_start = "<!--", multi_end = "-->" },
+	["python3"] = { multi_start = '"""', multi_end = '"""' },
+	["python1"] = { multi_start = "'''", multi_end = "'''" },
+	["ruby"] = { multi_start = "=begin", multi_end = "=end" },
+	["scala"] = { multi_start = "/**", multi_end = "*/" },
 }
 ```
 
 #### Example
+
+Welcome to use [meld](https://meldmerge.org/) for comparison
 
 ```js
 [RUST]
