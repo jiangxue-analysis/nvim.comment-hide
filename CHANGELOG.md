@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.6.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.5.0...v1.6.0) (2025-07-28)
+
+
+### Features
+
+* add clojure support close [#18](https://github.com/jiangxue-analysis/nvim.comment-hide/issues/18) ([714aa37](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/714aa37a79003184c0204e30d11f0e2e01cb326c))
+* add haskell support close [#19](https://github.com/jiangxue-analysis/nvim.comment-hide/issues/19) ([5cbd4bb](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/5cbd4bbbd0f7362eef0c36c8307b129b8d02df9b))
+* add new content ([29864fd](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/29864fd393256a625e511370196f480e73c67ebf))
+
 ## [1.5.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.4.0...v1.5.0) (2025-07-14)
 
 
