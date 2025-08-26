@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.6.0...v1.7.0) (2025-08-26)
+
+
+### Features
+
+* add nim lang ([013629b](https://github.com/jiangxue-analysis/nvim.comment-hide/commit/013629b4d8a06ed2ea7615232c39209ee262e8a5))
+
 ## [1.6.0](https://github.com/jiangxue-analysis/nvim.comment-hide/compare/v1.5.0...v1.6.0) (2025-07-28)
 
 
