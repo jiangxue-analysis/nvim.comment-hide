@@ -1,0 +1,88 @@
+# Arraymancer compilation flag config
+
+@if cudnn:
+  define:"cuda"
+@end
+
+# Nim cfg is not aware of new define within the file: https://github.com/nim-lang/Nim/issues/6698
+
+@if cuda or cudnn:
+  # compile with "cpp" backend.
+  # See https://github.com/mratsim/Arraymancer/issues/371
+
+  # Nvidia NVCC
+  cincludes:"/opt/cuda/include"
+  cc:"clang"
+  # Compilation for Cuda requires C++
+  # Nim also uses -std=gnu++14 for GCC which NVCC doesn't support
+  # so use Clang (NVCC is LLVM based now anyway)
+  clang.cpp.exe:"/opt/cuda/bin/nvcc"
+  clang.cpp.linkerexe:"/opt/cuda/bin/nvcc"
+  clang.cpp.options.debug: "-Xcompiler -Og" # Additional "-Xcompiler -g3" crashes stb_image macros
+  clang.cpp.options.speed: "-Xcompiler -O3 -Xcompiler -fno-strict-aliasing"
+  clang.cpp.options.size: "-Xcompiler -Os"
+  # Important sm_61 architecture corresponds to Pascal and sm_75 to Turing. Change for your own card
+  clang.cpp.options.always:"-gencode arch=compute_61,code=sm_61 -gencode arch=compute_75,code=sm_75 --x cu -Xcompiler -fpermissive"
+
+  # Clang
+  # cincludes:"/opt/cuda/include"
+  # clibdir:"/opt/cuda/lib"
+  # cc:"clang"
+  # # Compile for Pascal (6.1) and Turing cards (7.5)
+  # clang.cpp.options.always:"--cuda-path=/opt/cuda -lcudart_static -x cuda --cuda-gpu-arch=sm_61 --cuda-gpu-arch=sm_75"
+
+@end
+
+@if openblas:
+  define:"blas=openblas" # For nimblas
+  define:"lapack=openblas" # For nimlapack
+  @if macosx:
+    clibdir:"/usr/local/opt/openblas/lib"
+    cincludes:"/usr/local/opt/openblas/include"
+  @end
+@end
+
+# blis # Completely managed in the blis backend code
+
+# native # -march=native flag is Handled in the code
+
+@if mkl: # MKL multi_threaded
+  define:"openmp"
+  define:"blas=mkl_intel_lp64"
+  define:"lapack=mkl_intel_lp64"
+  clibdir:"/opt/intel/mkl/lib/intel64"
+  passl:"/opt/intel/mkl/lib/intel64/libmkl_intel_lp64.a"
+  passl:"-lmkl_core"
+  passl:"-lmkl_gnu_thread"
+  passl:"-lgomp"
+  dynlibOverride:"mkl_intel_lp64"
+@end
+
+@if openmp or mkl:
+  stackTrace:off
+  @if macosx: # Default compiler on Mac is clang without OpenMP and gcc is an alias to clang.
+              # Use Homebrew GCC instead for OpenMP support. GCC (v7), must be properly linked via `brew link gcc`
+    cc:"gcc"
+    gcc.exe:"/usr/local/bin/gcc-7"
+    gcc.linkerexe:"/usr/local/bin/gcc-7"
+  @end
+@end
+
+# ############################################################
+#
+#                    SIMD flags
+#
+# ############################################################
+
+gemm_ukernel_sse.always = "-msse"
+gemm_ukernel_sse2.always = "-msse2"
+gemm_ukernel_sse4_1.always = "-msse4.1"
+gemm_ukernel_avx.always = "-mavx"
+gemm_ukernel_avx_fma.always = "-mavx -mfma"
+gemm_ukernel_avx2.always = "-mavx2"
+gemm_ukernel_avx512.always = "-mavx512f -mavx512dq"
+
+
+# Set project wide style check to "usages" so that we are only hinted / errored
+# for style that mismatches with our initial usage of variables / proc names.
+styleCheck:"usages"
